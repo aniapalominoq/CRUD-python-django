@@ -58,8 +58,18 @@ def create_note(request):
 
 
 def note_detail(request, note_id):
-    note = get_object_or_404(Notes, pk=note_id)
-    return render(request, 'note_detail.html', {'note': note})
+    if request.method == 'GET':
+        note = get_object_or_404(Notes, pk=note_id, user=request.user)
+        form = CreateNoteForm(instance=note)
+        return render(request, 'note_detail.html', {'note': note, 'form': form})
+    else:
+        try:
+            note = get_object_or_404(Notes, pk=note_id, user=request.user)
+            CreateNoteForm(request.POST, instance=note)
+            form.save()
+            return redirect('notes')
+        except ValueError:
+            return render(request, 'note_detail.html', {'note': note, 'form': form, 'error': "Error updating note"})
 
 
 def signout(request):

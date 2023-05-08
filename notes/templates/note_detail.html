@@ -1,5 +1,9 @@
 {% extends 'header.html' %}
 {% block content %}
 <h1>{{note.title}}</h1>
-
+ {{error}}
+<form action="">
+    {{form}}
+    <button>update</button>
+</form>
 {% endblock %}
