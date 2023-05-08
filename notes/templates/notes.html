@@ -3,14 +3,16 @@
 <ul>
 {% for note in notes %}
 <li>
-    {% if note.importance %}
+    <a href="{% url 'note_detail' note.id %}">{% if note.importance %}
    <h1>{{note.title}}</h1>
    {% else %}
    <strong>{{note.title}}</strong>
    {% endif %}
    <p>{{note.description}}</p>
    <p>{{note.user.username}}</p>
+   </a>
 </li>
+
 {% endfor %}
 
 </ul>

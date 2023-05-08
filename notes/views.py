@@ -1,4 +1,4 @@
-from django.shortcuts import render, redirect
+from django.shortcuts import render, redirect, get_object_or_404
 from django.contrib.auth.forms import UserCreationForm, AuthenticationForm
 from django.contrib.auth.models import User
 from django.contrib.auth import login, logout
@@ -55,6 +55,11 @@ def create_note(request):
             return redirect('notes')
         except ValueError:
             return render(request, 'create_notes.html', {'form': CreateNoteForm, 'error': 'please provide valid data'})
+
+
+def note_detail(request, note_id):
+    note = get_object_or_404(Notes, pk=note_id)
+    return render(request, 'note_detail.html', {'note': note})
 
 
 def signout(request):
