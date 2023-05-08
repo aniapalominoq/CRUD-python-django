@@ -3,6 +3,7 @@ from django.contrib.auth.forms import UserCreationForm, AuthenticationForm
 from django.contrib.auth.models import User
 from django.contrib.auth import login, logout
 from .forms import CreateNoteForm
+from .models import Notes
 
 
 # Create your views here.
@@ -36,7 +37,9 @@ def signup(request):
 
 
 def notes(request):
-    return render(request, 'notes.html')
+    notes = Notes.objects.filter(
+        user=request.user, dateCompleted__isnull=True)
+    return render(request, 'notes.html', {'notes': notes})
 
 
 def create_note(request):
