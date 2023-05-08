@@ -2,6 +2,7 @@ from django.shortcuts import render, redirect
 from django.contrib.auth.forms import UserCreationForm, AuthenticationForm
 from django.contrib.auth.models import User
 from django.contrib.auth import login, logout
+from .forms import CreateNoteForm
 
 
 # Create your views here.
@@ -38,6 +39,21 @@ def notes(request):
     return render(request, 'notes.html')
 
 
+def create_note(request):
+    if request.method == 'GET':
+        return render(request, 'create_notes.html', {'form': CreateNoteForm})
+    else:
+        try:
+            form = CreateNoteForm(request.POST)
+            new_note = form.save(commit=False)
+            new_note.user = request.user
+            new_note.save()
+            print(new_note)
+            return redirect('notes')
+        except ValueError:
+            return render(request, 'create_notes.html', {'form': CreateNoteForm, 'error': 'please provide valid data'})
+
+
 def signout(request):
     logout(request)
     return redirect('home')
@@ -59,7 +75,3 @@ def signin(request):
         else:
             login(request, user)
             return redirect(notes)
-
-
-def create_note(request):
-    return render(request, 'create_notes.html')

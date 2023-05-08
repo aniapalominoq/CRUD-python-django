@@ -3,7 +3,7 @@ from django.contrib.auth.models import User
 
 
 # Create your models here.
-
+# uso de ORM DE PYTHON
 
 class Notes(models.Model):
     title = models.CharField(max_length=200)

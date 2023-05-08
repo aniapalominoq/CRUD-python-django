@@ -1,9 +1,11 @@
 {% extends 'header.html' %}
 {% block content %}
 <h1>crear mis notas</h1>
+{{error}}
+<form action="/create_note/" method="POST">
+  {% csrf_token %}
+    {{ form}}
 
-<form action="notes/create" method="POST">
-
-    <button>Create Notes</button>
+    <button>Save</button>
 </form>
 {% endblock %}
