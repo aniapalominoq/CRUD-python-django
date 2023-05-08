@@ -59,3 +59,7 @@ def signin(request):
         else:
             login(request, user)
             return redirect(notes)
+
+
+def create_note(request):
+    return render(request, 'create_notes.html')
