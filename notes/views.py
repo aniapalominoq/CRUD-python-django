@@ -2,6 +2,7 @@ from django.shortcuts import render, redirect, get_object_or_404
 from django.contrib.auth.forms import UserCreationForm, AuthenticationForm
 from django.contrib.auth.models import User
 from django.contrib.auth import login, logout
+from django.utils import timezone
 from .forms import CreateNoteForm
 from .models import Notes
 
@@ -70,6 +71,14 @@ def note_detail(request, note_id):
             return redirect('notes')
         except ValueError:
             return render(request, 'note_detail.html', {'note': note, 'form': form, 'error': "Error updating note"})
+
+
+def complete_note(request, note_id):
+    note = get_object_or_404(Notes, pk=note_id, user=request.user)
+    if request.method == 'POST':
+        note.dateCompleted = timezone.now()
+        note.save()
+        return redirect('notes')
 
 
 def signout(request):

@@ -2,8 +2,15 @@
 {% block content %}
 <h1>{{note.title}}</h1>
  {{error}}
-<form action="">
+<form method="POST">
+    {% csrf_token %}
     {{form}}
     <button>update</button>
+</form>
+<form method="POST" action="{% url 'complete_note' note.id %}">
+     {% csrf_token %}
+    <button>
+        Complete
+    </button>
 </form>
 {% endblock %}
